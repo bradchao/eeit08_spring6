@@ -29,13 +29,21 @@ public class MemberProfileService {
 			Profile mp = member.getProfile();
 			if (mp != null) {
 				profile.setId(mp.getId());
-			}else {
-				profile.setMember(member);
 			}
-			return profileRepository.save(profile);
+			member.setProfile(profile);
+			return memberRepository.save(member).getProfile();
 		}else {
 			return null;
 		}
+	}
+	
+	public Member findMember(Long memberId) {
+		return memberRepository.findById(memberId).orElse(null);
+	}
+	
+	@Transactional
+	public void deleteMember(Long memberId) {
+		memberRepository.deleteById(memberId);
 	}
 	
 }
