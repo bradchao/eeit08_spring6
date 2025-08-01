@@ -22,12 +22,17 @@ public class MemberProfileService {
 		return memberRepository.save(member);
 	}
 	
+	@Transactional
 	public Profile setProfileToMember(Long memberId, Profile profile) {
 		Member member = memberRepository.findById(memberId).orElse(null);
 		if (member != null) {
-			member.setProfile(profile);
-			Member m1 = memberRepository.save(member);
-			return m1.getProfile();
+			Profile mp = member.getProfile();
+			if (mp != null) {
+				profile.setId(mp.getId());
+			}else {
+				profile.setMember(member);
+			}
+			return profileRepository.save(profile);
 		}else {
 			return null;
 		}
