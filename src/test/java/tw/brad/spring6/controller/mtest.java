@@ -73,7 +73,7 @@ public class mtest {
 		member.setProfile(profile);
 		
 		// 模擬 service 行為
-		Mockito.when(service.save(Mockito.any(Member.class), Mockito.any(Profile.class))).thenReturn(member);
+		Mockito.when(service.save(Mockito.any(), Mockito.any())).thenReturn(member);
 		
 		String json = objectMapper.writeValueAsString(requestBody);
 		
@@ -81,10 +81,10 @@ public class mtest {
 		 mockMvc.perform(post("/api/member")
 				 .contentType(MediaType.APPLICATION_JSON)
 				 .content(json))
-		 	.andExpect(status().isOk());
-//		 	.andExpect(jsonPath("$.email", is("test1@brad.tw")))
-//		 	.andExpect(jsonPath("$.profile.cname", is("Test1")))
-//		 	.andExpect(jsonPath("$.profile.age", is(18)));
+		 	.andExpect(status().isOk())
+		 	.andExpect(jsonPath("$.email", is("test3@brad.tw")))
+		 	.andExpect(jsonPath("$.profile.cname", is("Test1")))
+		 	.andExpect(jsonPath("$.profile.age", is(18)));
 		
 		System.out.println("Finish3");
 	}
