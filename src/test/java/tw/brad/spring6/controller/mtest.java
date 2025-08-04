@@ -33,7 +33,7 @@ public class mtest {
 	@MockBean
 	private MemberProfileService service;
 	
-	@Mock
+	@Autowired
 	private MockMvc mockMvc;
 	
 	@Autowired
@@ -42,26 +42,12 @@ public class mtest {
 	@BeforeEach
 	void before() {
 		System.out.println("before()");
-		MockitoAnnotations.openMocks(this);
+		//MockitoAnnotations.openMocks(this);
 	}
 	
 	@Test
 	void test1() throws Exception{
 		System.out.println("Testing....");
-		
-		// 建立測試資料
-		Member member = new Member();
-		member.setEmail("test3@brad.tw");
-		member.setPasswd("123456");
-		
-		Profile profile = new Profile();
-		profile.setCname("Test1");
-		profile.setAge(18);
-		
-		member.setProfile(profile);
-		
-		// 模擬 service 行為
-		Mockito.when(service.save(Mockito.any(), Mockito.any())).thenReturn(member);
 		
 		// 建立參數傳遞進來的資料
 		 Map<String,Object> requestBody = Map.of(
@@ -74,19 +60,33 @@ public class mtest {
 				 );
 		 System.out.println(objectMapper.writeValueAsString(requestBody));
 		
+		// 建立測試資料
+		Member member = new Member();
+		member.setId(1L);
+		member.setEmail("test3@brad.tw");
+		member.setPasswd("123456");
+		
+		Profile profile = new Profile();
+		profile.setId(1L);
+		profile.setCname("Test1");
+		profile.setAge(18);
+		member.setProfile(profile);
+		
+		// 模擬 service 行為
+		Mockito.when(service.save(Mockito.any(Member.class), Mockito.any(Profile.class))).thenReturn(member);
+		
+		String json = objectMapper.writeValueAsString(requestBody);
+		
 		 // 執行測試
-		 ResultActions result = mockMvc.perform(post("/api/member")
+		 mockMvc.perform(post("/api/member")
 				 .contentType(MediaType.APPLICATION_JSON)
-				 .content(objectMapper.writeValueAsString(requestBody)));
-
-		 System.out.println(result == null);
-		 
-//		 	.andExpect(status().isOk())
+				 .content(json))
+		 	.andExpect(status().isOk());
 //		 	.andExpect(jsonPath("$.email", is("test1@brad.tw")))
 //		 	.andExpect(jsonPath("$.profile.cname", is("Test1")))
 //		 	.andExpect(jsonPath("$.profile.age", is(18)));
 		
-		System.out.println("Finish");
+		System.out.println("Finish3");
 	}
 	
 	@AfterEach
