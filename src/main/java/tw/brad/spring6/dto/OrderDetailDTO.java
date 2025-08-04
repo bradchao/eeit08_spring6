@@ -6,6 +6,7 @@ public class OrderDetailDTO {
 	private BigDecimal unitPrice;
 	private Integer quantity;
 	private String productName;
+	private Double total;
 	
 	public OrderDetailDTO(
 			BigDecimal unitPrice,
@@ -15,6 +16,7 @@ public class OrderDetailDTO {
 		this.unitPrice = unitPrice;
 		this.quantity = quantity;
 		this.productName = productName;
+		this.total = unitPrice.doubleValue() * quantity;
 	}
 	
 	
@@ -35,6 +37,16 @@ public class OrderDetailDTO {
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+
+	public Double getTotal() {
+		return total;
+	}
+
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 	
 	
