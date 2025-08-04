@@ -33,7 +33,7 @@ public class mtest {
 	@MockBean
 	private MemberProfileService service;
 	
-	@Autowired
+	@Autowired	// Controller
 	private MockMvc mockMvc;
 	
 	@Autowired
