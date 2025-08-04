@@ -1,8 +1,11 @@
 package tw.brad.spring6.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -53,6 +56,29 @@ public class Employee {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	//-------------------
+	@OneToMany(mappedBy = "employee")
+	private List<Order> orders;
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
