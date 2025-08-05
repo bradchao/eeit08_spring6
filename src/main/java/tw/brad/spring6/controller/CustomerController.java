@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tw.brad.spring6.aop.BradAOP;
 import tw.brad.spring6.dto.CustomerDTO;
 import tw.brad.spring6.dto.OrderDTO;
 import tw.brad.spring6.dto.OrderDetailDTO;
@@ -35,6 +36,7 @@ public class CustomerController {
 		return ResponseEntity.ok(repository.findByCustomerIdWithOrders(id).orElse(null));
 	}
 
+	@BradAOP
 	@GetMapping("/customer/v3/{id}")
 	public ResponseEntity<CustomerDTO> test3(@PathVariable String id) {
 		Customer c = repository.findById(id).orElse(null);
