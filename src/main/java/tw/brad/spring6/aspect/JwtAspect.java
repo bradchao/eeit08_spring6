@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import tw.brad.spring6.excption.AuthException;
@@ -20,8 +21,11 @@ public class JwtAspect {
 	public Object checkJwt(ProceedingJoinPoint joinPoint) throws Throwable{
 		System.out.println("checkJwt()");
 		
+		RequestContextHolder.getRequestAttributes();
+		
 		HttpServletRequest req =
-				(HttpServletRequest)RequestContextHolder.getRequestAttributes();
+				((ServletRequestAttributes)RequestContextHolder.getRequestAttributes())
+				.getRequest();
 		String authHeader = req.getHeader("Authorization");
 		if (authHeader == null) {
 			throw new AuthException("NO Auth");

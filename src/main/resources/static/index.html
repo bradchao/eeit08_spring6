@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<style>
+			table {border-collapse: collapse; width:80%; margin:20px}
+			th, td {border: 1px solid #ddd; padding:8px; text-align:center}
+			th {background-color: #f2f2f2 }
+		</style>		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				// 檢查 token
+				const token = localStorage.getItem("token");
+				if (!token){
+					window.location.href="/login.html";
+				}
+				
+				
+				$.ajax({
+					url: "/test/member/status",
+					method: 'POST',
+					headers: {
+							'Authorization': `Bearer ${token}`
+						},
+					success: function(){
+							alert('Welcome');
+						},
+					error: function(){
+							alert('Token 驗證失敗');
+							localStorage.removeItem('token');
+							window.location.href="/login.html";
+						}
+				});
+				
+				
+			});
+		</script>
+	</head>
+	<body>
+		
+		
+		
+		
+	</body>
+</html>

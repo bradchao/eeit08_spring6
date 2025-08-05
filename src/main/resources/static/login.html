@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('#loginForm').on('submit', function(e){
+					e.preventDefault();
+					let email = $('#email').val();
+					let passwd = $('#passwd').val();
+					
+					$.ajax({
+						url: '/test/member/login',
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify({
+							email: email,
+							passwd: passwd
+						}),
+						success: function(response){
+							console.log(response);
+							console.log(response.token);
+							if (response.token){
+								localStorage.setItem("token", response.token);
+								//window.location.href = '/index.html';
+							}else{
+								$('#result').text('error');
+							}
+							
+						},
+						error: function(xhttp, status, error){
+							console.log(status);
+							console.log(error);
+						}
+					});
+					
+					
+				})
+			});
+		</script>
+	</head>
+	<body>
+		<h1>會員登入</h1>
+		<hr />
+		<form id="loginForm">
+			<input id="email" required /><br />
+			<input type="password" id="passwd" required /><br />
+			<button type="submit">登入</button>
+		</form>
+		<div id="result"></div>
+	</body>
+</html>
